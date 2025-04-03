@@ -21,9 +21,9 @@ const SIDEBAR_ITEMS = [
     color: "#6366f1",
     href: "/",
   },
-  { name: "Articles", icon: Newspaper, color: "#8B5CF6", href: "/articles" },
-  { name: "Users", icon: Users, color: "#EC4899", href: "/users" },
-  { name: "Services", icon: HandPlatter, color: "#10B981", href: "/services" },
+  { name: "Article", icon: Newspaper, color: "#8B5CF6", href: "/article" },
+  { name: "User", icon: Users, color: "#EC4899", href: "/user" },
+  { name: "Service", icon: HandPlatter, color: "#10B981", href: "/service" },
   {
     name: "Portfolio",
     icon: SquareChartGantt,
@@ -36,7 +36,7 @@ const SIDEBAR_ITEMS = [
     color: "#3B82F6",
     href: "/feedback",
   },
-  { name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings" },
+  { name: "Setting", icon: Settings, color: "#6EE7B7", href: "/setting" },
   {
     name: "Logout",
     icon: LogOut,
@@ -46,7 +46,7 @@ const SIDEBAR_ITEMS = [
 ];
 
 const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <motion.div
