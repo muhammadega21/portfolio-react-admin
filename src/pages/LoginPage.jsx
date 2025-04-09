@@ -1,3 +1,4 @@
+import Input from "./../components/Form/Input";
 function LoginPage() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
@@ -13,35 +14,19 @@ function LoginPage() {
         <form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Email */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="yourmail@example.com"
-              />
-            </div>
+            <Input
+              label="Email"
+              id="email"
+              type="email"
+              placeholder="yourmail@example.com"
+            />
             {/* Phone Number */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="••••••••"
-              />
-            </div>
+            <Input
+              label="Password"
+              id="password"
+              type="password"
+              placeholder="**********"
+            />
             {/* Terms and Conditions */}
             <div className="md:col-span-2 mt-2">
               <div className="flex items-start">

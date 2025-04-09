@@ -11,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UserPage";
 import SettingPage from "./pages/SettingPage";
+import ArticleAddPage from "./pages/ArticleAddPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<DashboardPage />} />
                   <Route path="/article" element={<ArticlePage />} />
+                  <Route path="/article/add" element={<ArticleAddPage />} />
                   <Route path="/user" element={<UserPage />} />
                   <Route path="/service" element={<ServicePage />} />
                   <Route path="/portfolio" element={<PortfolioPage />} />

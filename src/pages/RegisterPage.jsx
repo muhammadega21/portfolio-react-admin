@@ -1,3 +1,4 @@
+import Input from "./../components/Form/Input";
 function RegisterPage() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
@@ -13,140 +14,56 @@ function RegisterPage() {
         <form>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Name */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="John Doe"
-              />
-            </div>
+            <Input label="Name" id="name" type="text" placeholder="John Doe" />
             {/* Email */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="yourmail@example.com"
-              />
-            </div>
+            <Input
+              label="Email"
+              id="email"
+              type="email"
+              placeholder="yourmail@example.com"
+            />
             {/* Phone Number */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="081234567890"
-                pattern="[0-9]{12,}"
-                title="Invalid phone number"
-              />
-            </div>
+            <Input label="Phone Number" id="phone" placeholder="1234567890" />
             {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="••••••••"
-              />
-            </div>
+            <Input
+              label="Password"
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              group
+            />
             {/* Confirm Password */}
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="••••••••"
-              />
-            </div>
+            <Input
+              label="Confirm Password"
+              id="password_confirmation"
+              type="password"
+              placeholder="••••••••"
+              group
+            />
             {/* Date of Birth */}
-            <div>
-              <label
-                htmlFor="dob"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                id="dob"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-              />
-            </div>
+            <Input label="Date of Birth" id="date_of_birth" type="date" group />
             {/* Profession */}
-            <div>
-              <label
-                htmlFor="profession"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Profession
-              </label>
-              <input
-                type="text"
-                id="profession"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="Web Programming"
-              />
-            </div>
+            <Input
+              label="Profession"
+              id="profession"
+              type="text"
+              placeholder="Profession"
+              group
+            />
             {/* Address */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="address"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Address
-              </label>
-              <input
-                type="text"
-                id="address"
-                className="w-full px-4 py-3 rounded-lg border border-gray-300  transition duration-150 ease-in-out"
-                placeholder="Jl. Raya No. 123, Jakarta"
-              />
-            </div>
+            <Input
+              label="Address"
+              id="address"
+              type="text"
+              placeholder="Jakarta, Indonesia"
+            />
             {/* Profile Picture */}
-            <div className="md:col-span-2">
-              <label
-                htmlFor="profile_image"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Profile Picture
-              </label>
-              <input
-                type="file"
-                id="profile_image"
-                className="file-input w-full"
-              />
-            </div>
+            <Input
+              label="Profile Picture"
+              id="profile_image"
+              type="file"
+              inputStyle="file-input w-full"
+            />
           </div>
           {/* Submit Button */}
           <div className="mt-8">

@@ -16,6 +16,7 @@
     "lucide-react": "^0.486.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-froala-wysiwyg": "^4.5.1",
     "react-router-dom": "^7.4.1",
     "recharts": "^2.15.1",
     "tailwindcss": "^4.0.17"
