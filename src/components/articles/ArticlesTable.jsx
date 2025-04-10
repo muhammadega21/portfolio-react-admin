@@ -3,7 +3,7 @@ import { Edit, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const PRODUCT_DATA = [
+const ArticleData = [
   {
     id: 1,
     title: "Cara Install Laravel",
@@ -29,12 +29,12 @@ const PRODUCT_DATA = [
 
 const ArticlesTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(PRODUCT_DATA);
+  const [filteredProducts, setFilteredProducts] = useState(ArticleData);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    const filtered = PRODUCT_DATA.filter(
+    const filtered = ArticleData.filter(
       (product) =>
         product.title.toLowerCase().includes(term) ||
         product.category.toLowerCase().includes(term)
@@ -72,61 +72,68 @@ const ArticlesTable = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Category
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
+      {filteredProducts.length > 0 ? (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-700">
+            <thead>
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Category
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
 
-          <tbody className="divide-y divide-gray-700">
-            {filteredProducts.map((product) => (
-              <motion.tr
-                key={product.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100 flex gap-2 items-center">
-                  <img
-                    src={product.img}
-                    alt={product.title}
-                    className="size-10 rounded-full"
-                  />
-                  {product.title}
-                </td>
+            <tbody className="divide-y divide-gray-700">
+              {filteredProducts.map((product) => (
+                <motion.tr
+                  key={product.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100 flex gap-2 items-center">
+                    <img
+                      src={product.img}
+                      alt={product.title}
+                      className="size-10 rounded-full"
+                    />
+                    {product.title}
+                  </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  {product.category}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  {product.date}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  <button className="text-indigo-400 hover:text-indigo-300 mr-2">
-                    <Edit size={18} />
-                  </button>
-                  <button className="text-red-400 hover:text-red-300">
-                    <Trash2 size={18} />
-                  </button>
-                </td>
-              </motion.tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {product.category}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {product.date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 flex items-center">
+                    <Link
+                      to={`/article/edit/${product.id}`}
+                      className="text-indigo-400 hover:text-indigo-300 mr-2"
+                    >
+                      <Edit size={18} />
+                    </Link>
+                    <button className="text-red-400 hover:text-red-300 cursor-pointer">
+                      <Trash2 size={18} />
+                    </button>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="text-center text-gray-400">Data tidak ditemukan</p>
+      )}
     </motion.div>
   );
 };

@@ -6,6 +6,8 @@ function Input({
   inputStyle,
   labelColor,
   group,
+  value,
+  onChange,
 }) {
   return (
     <div className={group ? "" : "col-span-2"}>
@@ -26,6 +28,8 @@ function Input({
             : "w-full px-4 py-3 rounded-lg border border-gray-300 outline-none  transition duration-150 ease-in-out"
         }
         placeholder={placeholder}
+        value={type !== "file" ? value : undefined}
+        onChange={onChange}
       />
     </div>
   );

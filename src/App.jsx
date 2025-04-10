@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 
 import Sidebar from "./components/common/Sidebar";
 
-import ArticlePage from "./pages/ArticlePage";
 import ServicePage from "./pages/ServicePage";
 import PortfolioPage from "./pages/PortfolioPage";
 import FeedbackPage from "./pages/FeedbackPage";
@@ -11,7 +10,9 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UserPage";
 import SettingPage from "./pages/SettingPage";
-import ArticleAddPage from "./pages/ArticleAddPage";
+import ArticlePage from "./pages/article/ArticlePage";
+import ArticleAddPage from "./pages/article/ArticleAddPage";
+import ArticleEditPage from "./pages/article/ArticleEditPage";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
                   <Route path="/" element={<DashboardPage />} />
                   <Route path="/article" element={<ArticlePage />} />
                   <Route path="/article/add" element={<ArticleAddPage />} />
+                  <Route
+                    path="/article/edit/:id"
+                    element={<ArticleEditPage />}
+                  />
                   <Route path="/user" element={<UserPage />} />
                   <Route path="/service" element={<ServicePage />} />
                   <Route path="/portfolio" element={<PortfolioPage />} />

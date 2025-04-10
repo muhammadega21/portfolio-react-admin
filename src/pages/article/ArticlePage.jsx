@@ -1,6 +1,6 @@
-import Header from "../components/common/Header";
+import Header from "../../components/common/Header";
 
-import ArticlesTable from "../components/articles/ArticlesTable";
+import ArticlesTable from "../../components/articles/ArticlesTable";
 
 const ArticlePage = () => {
   return (
