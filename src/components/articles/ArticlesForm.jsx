@@ -4,8 +4,8 @@ import Input from "./../Form/Input";
 import Select from "./../Form/select";
 import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
-import FroalaEditorComponent from "react-froala-wysiwyg";
 import "froala-editor/js/plugins.pkgd.min.js";
+import FroalaEditorComponent from "react-froala-wysiwyg";
 function ArticlesForm({ data }) {
   return (
     <motion.div
@@ -48,10 +48,14 @@ function ArticlesForm({ data }) {
             inputStyle="file-input w-full bg-gray-800 focus:outline-none border border-gray-300"
           />
           <div className="col-span-2 h-auto">
+            <label className={"block text-sm font-medium mb-2 text-white"}>
+              Content
+            </label>
             <FroalaEditorComponent
               tag="textarea"
               config={{
                 placeholderText: "Write your article here",
+                heightMin: 200,
               }}
             />
           </div>
