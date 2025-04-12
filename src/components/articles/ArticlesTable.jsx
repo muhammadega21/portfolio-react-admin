@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ArticleData = [
   {
@@ -31,6 +32,8 @@ const ArticlesTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(ArticleData);
 
+  const navigate = useNavigate();
+
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -41,6 +44,25 @@ const ArticlesTable = () => {
     );
 
     setFilteredProducts(filtered);
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const filtered = ArticleData.filter((product) => product.id !== id);
+        setFilteredProducts(filtered);
+        Swal.fire("Deleted!", "Your article has been deleted.", "success");
+        navigate("/article");
+      }
+    });
   };
 
   return (
@@ -122,7 +144,10 @@ const ArticlesTable = () => {
                     >
                       <Edit size={18} />
                     </Link>
-                    <button className="text-red-400 hover:text-red-300 cursor-pointer">
+                    <button
+                      onClick={() => handleDelete(product.id)}
+                      className="text-red-400 hover:text-red-300 cursor-pointer"
+                    >
                       <Trash2 size={18} />
                     </button>
                   </td>
