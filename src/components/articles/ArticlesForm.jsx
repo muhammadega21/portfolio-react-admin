@@ -48,51 +48,58 @@ function ArticlesForm({ category, data }) {
       </div>
 
       <div className="overflow-x-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Input
-            label="Title"
-            id="title"
-            type="text"
-            placeholder="Article Title"
-            labelColor="text-white"
-            value={formData.title}
-            onChange={handleChange}
-            group
-          />
-          <Select
-            label="Category"
-            id="category"
-            labelColor="text-white"
-            category={category}
-            defaultValue="Select Category"
-            inputStyle="bg-gray-800 !text-base"
-            value={formData.category}
-            onChange={handleChange}
-            group
-          />
-          <Input
-            label="Image"
-            id="image"
-            type="file"
-            labelColor="text-white"
-            inputStyle="file-input w-full bg-gray-800 focus:outline-none border border-gray-300"
-            onChange={handleChange}
-          />
-          <div className="col-span-2 h-auto">
-            <label className={"block text-sm font-medium mb-2 text-white"}>
-              Content
-            </label>
-            <FroalaEditorComponent
-              tag="textarea"
-              config={{
-                placeholderText: "Write your article here",
-                heightMin: 200,
-              }}
-              model={formData.content}
-              onModelChange={handleContentChange}
+        <form action="" onSubmit={handleSubmit} encType="multipart/form-data">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input
+              label="Title"
+              id="title"
+              type="text"
+              placeholder="Article Title"
+              labelColor="text-white"
+              value={formData.title}
+              onChange={handleChange}
+              group
             />
+            <Select
+              label="Category"
+              id="category"
+              labelColor="text-white"
+              category={category}
+              defaultValue="Select Category"
+              inputStyle="bg-gray-800 !text-base"
+              value={formData.category}
+              onChange={handleChange}
+              group
+            />
+            <Input
+              label="Image"
+              id="image"
+              type="file"
+              labelColor="text-white"
+              inputStyle="file-input w-full bg-gray-800 focus:outline-none border border-gray-300"
+              onChange={handleChange}
+            />
+            <div className="col-span-2 h-auto">
+              <label className={"block text-sm font-medium mb-2 text-white"}>
+                Content
+              </label>
+              <FroalaEditorComponent
+                tag="textarea"
+                config={{
+                  placeholderText: "Write your article here",
+                  heightMin: 200,
+                }}
+                model={formData.content}
+                onModelChange={handleContentChange}
+              />
+            </div>
+            <div className="col-span-2 flex justify-end mt-4">
+              <button type="submit" className="btn btn-info text-white">
+                {data ? "Update" : "Add"} Article
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </motion.div>
   );
