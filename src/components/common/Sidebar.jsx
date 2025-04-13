@@ -2,6 +2,7 @@ import "./index.css";
 import {
   HandPlatter,
   LayoutDashboard,
+  LayoutList,
   LogOut,
   Menu,
   MessageCircle,
@@ -22,6 +23,7 @@ const SIDEBAR_ITEMS = [
     href: "/",
   },
   { name: "Article", icon: Newspaper, color: "#8B5CF6", href: "/article" },
+  { name: "Category", icon: LayoutList, color: "#b811b3", href: "/category" },
   { name: "User", icon: Users, color: "#EC4899", href: "/user" },
   { name: "Service", icon: HandPlatter, color: "#10B981", href: "/service" },
   {

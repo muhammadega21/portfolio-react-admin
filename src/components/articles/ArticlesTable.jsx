@@ -30,7 +30,7 @@ const ArticleData = [
 
 const ArticlesTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(ArticleData);
+  const [filteredData, setFilteredData] = useState(ArticleData);
 
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ const ArticlesTable = () => {
         product.category.toLowerCase().includes(term)
     );
 
-    setFilteredProducts(filtered);
+    setFilteredData(filtered);
   };
 
   const handleDelete = (id) => {
@@ -58,7 +58,7 @@ const ArticlesTable = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         const filtered = ArticleData.filter((product) => product.id !== id);
-        setFilteredProducts(filtered);
+        setFilteredData(filtered);
         Swal.fire("Deleted!", "Your article has been deleted.", "success");
         navigate("/article");
       }
@@ -94,7 +94,7 @@ const ArticlesTable = () => {
         </div>
       </div>
 
-      {filteredProducts.length > 0 ? (
+      {filteredData.length > 0 ? (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-700">
             <thead>
@@ -115,7 +115,7 @@ const ArticlesTable = () => {
             </thead>
 
             <tbody className="divide-y divide-gray-700">
-              {filteredProducts.map((product) => (
+              {filteredData.map((product) => (
                 <motion.tr
                   key={product.id}
                   initial={{ opacity: 0 }}
