@@ -1,5 +1,5 @@
 import Header from "../components/common/Header";
-import SetHeader from "../components/common/setHeader";
+import SubHeader from "../components/common/SubHeader";
 
 const AboutPage = () => {
   const data = {
@@ -29,7 +29,7 @@ const AboutPage = () => {
       <Header title={"About"} />
 
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
-        <SetHeader
+        <SubHeader
           title={"About"}
           img={"page-header"}
           inputTitle={"Sub Header About"}

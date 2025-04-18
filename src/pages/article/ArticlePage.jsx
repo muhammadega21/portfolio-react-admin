@@ -1,7 +1,7 @@
 import Header from "../../components/common/Header";
 
 import ArticlesTable from "../../components/articles/ArticlesTable";
-import SetHeader from "../../components/common/setHeader";
+import SubHeader from "../../components/common/SubHeader";
 
 const ArticlePage = () => {
   const data = {
@@ -52,7 +52,7 @@ const ArticlePage = () => {
       <Header title="Articles" />
 
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
-        <SetHeader
+        <SubHeader
           title={"Article"}
           img={"page-header"}
           inputTitle={"Sub Header Article"}

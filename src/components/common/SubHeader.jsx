@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { HelpCircle } from "lucide-react";
-import Input from "./../Form/Input";
+import Input from "../Form/Input";
 import { useState } from "react";
-const SetHeader = ({ title, img, inputValue }) => {
+const SubHeader = ({ title, img, inputValue }) => {
   const [formData, setFormData] = useState({
     article_intro: inputValue || "Empty",
   });
@@ -59,4 +59,4 @@ const SetHeader = ({ title, img, inputValue }) => {
   );
 };
 
-export default SetHeader;
+export default SubHeader;
