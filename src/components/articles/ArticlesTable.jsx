@@ -4,31 +4,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const ArticleData = [
-  {
-    id: 1,
-    title: "Cara Install Laravel",
-    category: "Laravel",
-    date: "2023-07-01",
-    img: "https://images.unsplash.com/photo-1627989580309-bfaf3e58af6f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2lyZWxlc3MlMjBlYXJidWRzfGVufDB8fDB8fHww",
-  },
-  {
-    id: 2,
-    title: "Cara Install React",
-    category: "React Js",
-    date: "2023-07-02",
-    img: "https://images.unsplash.com/photo-1627989580309-bfaf3e58af6f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2lyZWxlc3MlMjBlYXJidWRzfGVufDB8fDB8fHww",
-  },
-  {
-    id: 3,
-    title: "Perbedaan Frontend dan Backend",
-    category: "Web Development",
-    date: "2023-07-02",
-    img: "https://images.unsplash.com/photo-1627989580309-bfaf3e58af6f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2lyZWxlc3MlMjBlYXJidWRzfGVufDB8fDB8fHww",
-  },
-];
+const ArticlesTable = ({ data }) => {
+  const ArticleData = data.article.blogs;
 
-const ArticlesTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(ArticleData);
 
@@ -130,9 +108,8 @@ const ArticlesTable = () => {
                     />
                     {product.title}
                   </td>
-
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {product.category}
+                    {product.category.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {product.date}

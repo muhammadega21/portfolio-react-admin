@@ -14,6 +14,7 @@ import ArticlePage from "./pages/article/ArticlePage";
 import ArticleAddPage from "./pages/article/ArticleAddPage";
 import ArticleEditPage from "./pages/article/ArticleEditPage";
 import CategoryPage from "./pages/category/CategoryPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
                   />
                   <Route path="/category" element={<CategoryPage />} />
                   <Route path="/user" element={<UserPage />} />
+                  <Route path="/about" element={<AboutPage />} />
                   <Route path="/service" element={<ServicePage />} />
                   <Route path="/portfolio" element={<PortfolioPage />} />
                   <Route path="/feedback" element={<FeedbackPage />} />

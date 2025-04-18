@@ -1,5 +1,6 @@
 import "./index.css";
 import {
+  CircleHelp,
   HandPlatter,
   LayoutDashboard,
   LayoutList,
@@ -25,6 +26,7 @@ const SIDEBAR_ITEMS = [
   { name: "Article", icon: Newspaper, color: "#8B5CF6", href: "/article" },
   { name: "Category", icon: LayoutList, color: "#b811b3", href: "/category" },
   { name: "User", icon: Users, color: "#EC4899", href: "/user" },
+  { name: "About", icon: CircleHelp, color: "#f52f5d", href: "/about" },
   { name: "Service", icon: HandPlatter, color: "#10B981", href: "/service" },
   {
     name: "Portfolio",
