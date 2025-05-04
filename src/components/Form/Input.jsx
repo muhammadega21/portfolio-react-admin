@@ -24,18 +24,18 @@ function Input({
         >
           {label}
         </label>
-        <div
-          className={`tooltip tooltip-right ${toolTip ? "block" : "hidden"}`}
-        >
-          <div className="tooltip-content ">
-            <div>
-              <img src={`/img/${toolTipImg}.png`} alt={toolTipImg} />
+        {toolTip && (
+          <div className="tooltip tooltip-right">
+            <div className="tooltip-content ">
+              <div>
+                <img src={`/img/${toolTipImg}.png`} alt={toolTipImg} />
+              </div>
+            </div>
+            <div className="cursor-pointer">
+              <HelpCircle size={14} />
             </div>
           </div>
-          <div className="cursor-pointer">
-            <HelpCircle size={14} />
-          </div>
-        </div>
+        )}
       </div>
       <input
         type={type}
