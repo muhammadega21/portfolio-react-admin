@@ -22,8 +22,6 @@ function RegisterPage() {
               type="email"
               placeholder="yourmail@example.com"
             />
-            {/* Phone Number */}
-            <Input label="Phone Number" id="phone" placeholder="1234567890" />
             {/* Password */}
             <Input
               label="Password"
@@ -49,13 +47,6 @@ function RegisterPage() {
               type="text"
               placeholder="Profession"
               group
-            />
-            {/* Address */}
-            <Input
-              label="Address"
-              id="address"
-              type="text"
-              placeholder="Jakarta, Indonesia"
             />
             {/* Profile Picture */}
             <Input
