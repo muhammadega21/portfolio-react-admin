@@ -45,7 +45,7 @@ function RegisterPage() {
               label="Profession"
               id="profession"
               type="text"
-              placeholder="Profession"
+              placeholder="Mobile Programming, Web Programming, etc."
               group
             />
             {/* Profile Picture */}
@@ -54,6 +54,8 @@ function RegisterPage() {
               id="profile_image"
               type="file"
               inputStyle="file-input w-full"
+              toolTip={true}
+              toolTipImg="profile-image"
             />
           </div>
           {/* Submit Button */}
