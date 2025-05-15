@@ -12,6 +12,7 @@ function Input({
   onChange,
   toolTip,
   toolTipImg,
+  error,
 }) {
   return (
     <div className={group ? "" : "col-span-2"}>
@@ -19,7 +20,7 @@ function Input({
         <label
           htmlFor={id}
           className={`block text-sm font-medium mb-2  ${
-            labelColor ? labelColor : "text-gray-700"
+            error ? "text-red-600" : labelColor ? labelColor : "text-gray-700"
           }`}
         >
           {label}
@@ -43,12 +44,19 @@ function Input({
         className={
           inputStyle
             ? inputStyle
-            : "w-full px-4 py-3 rounded-lg border border-gray-300 outline-none  transition duration-150 ease-in-out"
+            : `w-full px-4 py-3 rounded-lg border ${
+                error ? "border-red-500" : "border-gray-300"
+              }  outline-none  transition duration-150 ease-in-out`
         }
         placeholder={placeholder}
         value={type !== "file" ? value : undefined}
         onChange={onChange}
       />
+      {error && (
+        <span className="text-red-500 text-start block text-sm mt-1">
+          {error}
+        </span>
+      )}
     </div>
   );
 }

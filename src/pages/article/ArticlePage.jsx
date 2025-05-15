@@ -2,8 +2,42 @@ import Header from "../../components/common/Header";
 
 import ArticlesTable from "../../components/articles/ArticlesTable";
 import SubHeader from "../../components/common/SubHeader";
+import { useEffect, useState } from "react";
+import { getArticlePageTitle } from "../../services/BlogService";
+import CircleLoading from "./../../components/elements/CircleLoading";
 
 const ArticlePage = () => {
+  const [articlePageTitle, setArticlePageTitle] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticlePageTitle = async () => {
+      try {
+        const response = await getArticlePageTitle();
+
+        if (response?.page_intro) {
+          setArticlePageTitle(response.page_intro);
+        } else {
+          throw new Error("Data page_intro tidak ditemukan dalam response");
+        }
+      } catch (err) {
+        console.error("Gagal mengambil data:", err);
+        setArticlePageTitle("Empty Page Title");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchArticlePageTitle();
+  }, []);
+
+  if (isLoading)
+    return (
+      <div className="grid place-items-center my-5">
+        <CircleLoading />
+      </div>
+    );
+
   const data = {
     article: {
       id: 1,
@@ -56,7 +90,8 @@ const ArticlePage = () => {
           title={"Article"}
           img={"page-header"}
           inputTitle={"Sub Header Article"}
-          inputValue={data.article.page_intro}
+          inputValue={articlePageTitle}
+          route={"/article"}
         />
         <ArticlesTable data={data} />
       </main>

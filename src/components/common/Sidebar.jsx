@@ -14,65 +14,91 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { NavLink } from "react-router-dom";
-
-const SIDEBAR_ITEMS = [
-  {
-    name: "Dashboard",
-    icon: LayoutDashboard,
-    color: "#6366f1",
-    href: "/",
-  },
-  { name: "Article", icon: Newspaper, color: "#8B5CF6", href: "/article" },
-  { name: "Category", icon: LayoutList, color: "#b811b3", href: "/category" },
-  { name: "User", icon: Users, color: "#EC4899", href: "/user" },
-  { name: "About", icon: CircleHelp, color: "#f52f5d", href: "/about" },
-  { name: "Service", icon: HandPlatter, color: "#10B981", href: "/service" },
-  {
-    name: "Portfolio",
-    icon: SquareChartGantt,
-    color: "#F59E0B",
-    href: "/portfolio",
-  },
-  {
-    name: "Feedback",
-    icon: MessageCircle,
-    color: "#3B82F6",
-    href: "/feedback",
-  },
-  { name: "Setting", icon: Settings, color: "#6EE7B7", href: "/setting" },
-  {
-    name: "Logout",
-    icon: LogOut,
-    color: "#EF4444",
-    href: "/logout",
-  },
-];
+import { NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../../services/authService";
+import AlertSuccess from "../Alerts/AlertSuccess";
+import AlertConfirm from "./../Alerts/AlertConfirm";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  async function handleLogout() {
+    const result = await AlertConfirm({
+      message: "Are you sure you want to logout?",
+    });
+    if (result.isConfirmed) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await logout(token);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        AlertSuccess(response.message, () => navigate("/login"));
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    }
+  }
+
+  const SIDEBAR_ITEMS = [
+    {
+      name: "Dashboard",
+      icon: LayoutDashboard,
+      color: "#6366f1",
+      href: "/",
+    },
+    { name: "Article", icon: Newspaper, color: "#8B5CF6", href: "/article" },
+    { name: "Category", icon: LayoutList, color: "#b811b3", href: "/category" },
+    { name: "User", icon: Users, color: "#EC4899", href: "/user" },
+    { name: "About", icon: CircleHelp, color: "#f52f5d", href: "/about" },
+    { name: "Service", icon: HandPlatter, color: "#10B981", href: "/service" },
+    {
+      name: "Portfolio",
+      icon: SquareChartGantt,
+      color: "#F59E0B",
+      href: "/portfolio",
+    },
+    {
+      name: "Feedback",
+      icon: MessageCircle,
+      color: "#3B82F6",
+      href: "/feedback",
+    },
+    { name: "Setting", icon: Settings, color: "#6EE7B7", href: "/setting" },
+    {
+      name: "Logout",
+      icon: LogOut,
+      color: "#EF4444",
+      href: "#",
+      onClick: () => handleLogout(),
+    },
+  ];
 
   return (
     <motion.div
-      className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 overflow-hidden ${
+      className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 overflow-auto no-scrollbar ${
         isSidebarOpen ? "w-64" : "w-20"
       }`}
       animate={{ width: isSidebarOpen ? 256 : 80 }}
     >
-      <div className="h-full bg-gray-800 bg-opacity-50 backdrop-blur-md p-4 flex flex-col border-r border-gray-700">
+      <div className="h-max bg-gray-800 bg-opacity-50 backdrop-blur-md p-4 flex flex-col border-r border-gray-700">
         <motion.button
           whileHover={{ transform: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 rounded-full hover:bg-gray-700 transition-colors max-w-fit"
+          className="p-2 ms-1 rounded-full hover:bg-gray-700 transition-colors max-w-fit"
         >
           <Menu size={24} />
         </motion.button>
 
-        <nav className="mt-8 flex-grow">
+        <nav className="mt-5 flex-grow">
           {SIDEBAR_ITEMS.map((item) => (
-            <NavLink key={item.href} to={item.href} className="nav">
-              <motion.div className="nav-link flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-700  transition-colors mb-2">
+            <NavLink
+              key={item.href}
+              to={item.href}
+              onClick={item.onClick}
+              className="nav"
+            >
+              <motion.div className="nav-link flex items-center p-4 pe-3 ps-3.5 text-sm font-medium rounded-lg hover:bg-gray-700  transition-colors mb-2">
                 <item.icon
                   size={20}
                   style={{ color: item.color, minWidth: "20px" }}

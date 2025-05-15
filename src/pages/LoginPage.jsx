@@ -1,5 +1,44 @@
-import Input from "./../components/Form/Input";
+import { useState } from "react";
+import Input from "../components/Form/Input";
+import { useNavigate } from "react-router-dom";
+import { login } from "../services/authService";
+import AlertSuccess from "../components/Alerts/AlertSuccess";
+import AlertError from "../components/alerts/AlertError";
+import ThreeDots from "../components/elements/ThreeDots";
 function LoginPage() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState({});
+  const navigate = useNavigate();
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await login(formData);
+      const token = response.access_token;
+      const user = response.user;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      AlertSuccess(response.message, () => navigate("/"));
+    } catch (err) {
+      console.log(err);
+
+      AlertError("Email atau password salah.");
+      setError(
+        err.response.data.message || "Registration failed. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
       <div className="bg-white rounded-2xl shadow-lg p-6 md:p-10">
@@ -11,7 +50,7 @@ function LoginPage() {
             Fill in the details below to get started
           </p>
         </div>
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Email */}
             <Input
@@ -19,6 +58,10 @@ function LoginPage() {
               id="email"
               type="email"
               placeholder="yourmail@example.com"
+              error={error?.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
             {/* Phone Number */}
             <Input
@@ -26,6 +69,10 @@ function LoginPage() {
               id="password"
               type="password"
               placeholder="**********"
+              error={error?.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
             {/* Terms and Conditions */}
             <div className="md:col-span-2 mt-2">
@@ -55,7 +102,7 @@ function LoginPage() {
               type="submit"
               className="w-full cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Sign In
+              {isLoading ? <ThreeDots /> : "Sign In"}
             </button>
           </div>
           {/* Sign In Link */}

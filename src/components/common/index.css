@@ -1,3 +1,11 @@
-.nav.active .nav-link{
-    background-color: #364153;
+.nav.active .nav-link {
+  background-color: #364153;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

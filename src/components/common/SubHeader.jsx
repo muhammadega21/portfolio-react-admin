@@ -2,17 +2,33 @@ import { motion } from "framer-motion";
 import { HelpCircle } from "lucide-react";
 import Input from "../Form/Input";
 import { useState } from "react";
-const SubHeader = ({ title, img, inputValue }) => {
+import { updatePageTitle } from "../../services/pageTitle";
+import AlertSuccess from "../Alerts/AlertSuccess";
+import { useNavigate } from "react-router-dom";
+import AlertError from "../alerts/AlertError";
+import CircleLoading from "../elements/CircleLoading";
+const SubHeader = ({ title, img, inputValue, route }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
-    article_intro: inputValue || "Empty",
+    _method: "put",
+    page_intro: inputValue || "Empty",
   });
 
-  const handleChange = (e) => {
-    const { id, value, files } = e.target;
-    if (files) {
-      setFormData((prev) => ({ ...prev, [id]: files[0] }));
-    } else {
-      setFormData((prev) => ({ ...prev, [id]: value }));
+  // const navigate = useNavigate();
+
+  const handleUpdateTitle = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await updatePageTitle(route, formData);
+      AlertSuccess(response.message);
+    } catch (e) {
+      console.error(e);
+      AlertError(e.message);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -39,20 +55,22 @@ const SubHeader = ({ title, img, inputValue }) => {
           </div>
         </div>
         <div className="mt-3">
-          <form>
+          <form onSubmit={handleUpdateTitle}>
             <Input
               id="page_intro"
               type="text"
-              value={formData["article_intro"]}
+              value={formData["page_intro"]}
               labelColor="text-white"
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, page_intro: e.target.value })
+              }
             />
+            <div className="mt-3 flex justify-end">
+              <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4  rounded transition duration-200 w-full sm:w-auto cursor-pointer">
+                {isLoading ? <CircleLoading size={20} /> : "Update"}
+              </button>
+            </div>
           </form>
-          <div className="mt-3 flex justify-end">
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4  rounded transition duration-200 w-full sm:w-auto">
-              Update
-            </button>
-          </div>
         </div>
       </div>
     </motion.div>
