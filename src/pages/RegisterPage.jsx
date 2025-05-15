@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Input from "../components/Form/Input";
 import { register } from "../services/authService";
-import ThreeDots from "./../components/elements/ThreeDots";
-import AlertError from "../components/alerts/AlertError";
-import AlertSuccess from "./../components/Alerts/AlertSuccess";
+import { ThreeDots } from "./../components/elements/ThreeDots";
+import { AlertError } from "../components/alerts/AlertError";
+import { AlertSuccess } from "./../components/alerts/AlertSuccess";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {

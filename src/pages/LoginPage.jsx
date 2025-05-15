@@ -2,9 +2,9 @@ import { useState } from "react";
 import Input from "../components/Form/Input";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
-import AlertSuccess from "../components/Alerts/AlertSuccess";
-import AlertError from "../components/alerts/AlertError";
-import ThreeDots from "../components/elements/ThreeDots";
+import { AlertSuccess } from "./../components/alerts/AlertSuccess";
+import { AlertError } from "../components/alerts/AlertError";
+import { ThreeDots } from "../components/elements/ThreeDots";
 function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",

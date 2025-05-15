@@ -3,10 +3,10 @@ import { HelpCircle } from "lucide-react";
 import Input from "../Form/Input";
 import { useState } from "react";
 import { updatePageTitle } from "../../services/pageTitle";
-import AlertSuccess from "../Alerts/AlertSuccess";
+import { AlertSuccess } from "../alerts/AlertSuccess";
 import { useNavigate } from "react-router-dom";
-import AlertError from "../Alerts/AlertError";
-import CircleLoading from "../elements/CircleLoading";
+import { AlertError } from "../alerts/AlertError";
+import { CircleLoading } from "../elements/CircleLoading";
 const SubHeader = ({ title, img, inputValue, route }) => {
   const [isLoading, setIsLoading] = useState(false);
 
