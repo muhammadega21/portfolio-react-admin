@@ -5,7 +5,7 @@ import { useState } from "react";
 import { updatePageTitle } from "../../services/pageTitle";
 import AlertSuccess from "../Alerts/AlertSuccess";
 import { useNavigate } from "react-router-dom";
-import AlertError from "../alerts/AlertError";
+import AlertError from "../Alerts/AlertError";
 import CircleLoading from "../elements/CircleLoading";
 const SubHeader = ({ title, img, inputValue, route }) => {
   const [isLoading, setIsLoading] = useState(false);
