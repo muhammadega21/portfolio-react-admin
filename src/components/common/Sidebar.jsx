@@ -16,8 +16,8 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../services/authService";
-import { AlertSuccess } from "../alerts/AlertSuccess";
-import { AlertConfirm } from "../alerts/AlertConfirm";
+import AlertSuccess from "../alerts/AlertSuccess";
+import AlertConfirm from "../alerts/AlertConfirm";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
