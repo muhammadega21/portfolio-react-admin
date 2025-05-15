@@ -28,7 +28,7 @@ function Select({
         <option disabled value="">
           {defaultValue}
         </option>
-        {category.map((item) => (
+        {category.data?.map((item) => (
           <option key={item.id} value={item.id}>
             {item.name}
           </option>
