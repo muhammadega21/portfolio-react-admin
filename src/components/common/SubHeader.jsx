@@ -5,7 +5,7 @@ import { useState } from "react";
 import { updatePageTitle } from "../../services/pageTitle";
 import AlertSuccess from "../alerts/AlertSuccess";
 import AlertError from "../alerts/AlertError";
-import { CircleLoading } from "../elements/CircleLoading";
+import CircleLoading from "../elements/CircleLoading";
 const SubHeader = ({ title, img, inputValue, route }) => {
   const [isLoading, setIsLoading] = useState(false);
 
