@@ -8,7 +8,7 @@ import CircleLoading from "./../../components/elements/CircleLoading";
 
 const ArticlePage = () => {
   const [articlePageTitle, setArticlePageTitle] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchArticlePageTitle = async () => {
