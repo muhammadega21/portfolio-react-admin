@@ -3,7 +3,7 @@ import Header from "../../components/common/Header";
 import ArticlesTable from "../../components/articles/ArticlesTable";
 import SubHeader from "../../components/common/SubHeader";
 import { useEffect, useState } from "react";
-import getArticlePageTitle from "../../services/BlogService";
+import { getArticlePageTitle } from "../../services/blogService";
 import CircleLoading from "./../../components/elements/CircleLoading";
 
 const ArticlePage = () => {
