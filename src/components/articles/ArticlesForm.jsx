@@ -2,11 +2,8 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Input from "./../Form/Input";
 import Select from "./../Form/select";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/js/plugins.pkgd.min.js";
-import FroalaEditorComponent from "react-froala-wysiwyg";
 import { useState } from "react";
+import FroalaEditor from "./../common/FroalaEditor";
 function ArticlesForm({ category, data }) {
   const [formData, setFormData] = useState({
     title: data?.title || "",
@@ -83,12 +80,8 @@ function ArticlesForm({ category, data }) {
               <label className={"block text-sm font-medium mb-2 text-white"}>
                 Content
               </label>
-              <FroalaEditorComponent
-                tag="textarea"
-                config={{
-                  placeholderText: "Write your article here",
-                  heightMin: 200,
-                }}
+              <FroalaEditor
+                tag={"textarea"}
                 model={formData.content}
                 onModelChange={handleContentChange}
               />
