@@ -9,3 +9,15 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.fr-modal-wrapper .fr-modal {
+  z-index: 99999 !important; /* Pastikan lebih tinggi dari elemen lain */
+}
+
+.fr-popup.fr-image-popup .fr-command {
+  display: block !important; /* Pastikan tombol terlihat */
+}
+
+.fr-box.fr-basic .fr-element {
+  overflow: visible !important;
+}

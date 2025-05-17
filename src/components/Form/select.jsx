@@ -8,12 +8,13 @@ function Select({
   inputStyle,
   value,
   onChange,
+  error,
 }) {
   return (
     <div className={group ? "" : "md:col-span-2"}>
       <label
         className={` block text-sm font-medium mb-2 ${
-          labelColor ? labelColor : "text-gray-700"
+          error ? "text-red-600" : labelColor ? labelColor : "text-gray-700"
         }`}
       >
         {label}
@@ -21,7 +22,9 @@ function Select({
       <select
         value={value}
         onChange={onChange}
-        className={`select select-lg rounded-lg w-full border border-gray-300 focus:outline-none ${inputStyle}`}
+        className={`select select-lg rounded-lg w-full border cursor-pointer ${
+          error ? "border-red-500" : "border-gray-300"
+        } focus:outline-none ${inputStyle}`}
         id={id}
         name={id}
       >
@@ -34,6 +37,11 @@ function Select({
           </option>
         ))}
       </select>
+      {error && (
+        <span className="text-red-500 text-start block text-sm mt-1">
+          {error}
+        </span>
+      )}
     </div>
   );
 }

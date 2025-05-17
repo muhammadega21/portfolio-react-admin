@@ -4,12 +4,12 @@ import Input from "./../Form/Input";
 import Select from "./../Form/select";
 import { useState } from "react";
 import FroalaEditor from "./../common/FroalaEditor";
-function ArticlesForm({ category, data }) {
+function ArticlesForm({ category, data, handleSubmitData, error }) {
   const [formData, setFormData] = useState({
     title: data?.title || "",
-    category: data?.category || "",
-    image: null,
-    content: data?.content || "",
+    category_id: data?.category_id || "",
+    blog_img: null,
+    blog_content: data?.blog_content || "",
   });
 
   const handleChange = (e) => {
@@ -21,14 +21,13 @@ function ArticlesForm({ category, data }) {
     }
   };
 
-  const handleContentChange = (content) => {
-    setFormData((prev) => ({ ...prev, content }));
+  const handleContentChange = (blog_content) => {
+    setFormData((prev) => ({ ...prev, blog_content }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // kirim formData ke server dengan fetch/axios dll
+    handleSubmitData(formData);
   };
   return (
     <motion.div
@@ -55,35 +54,44 @@ function ArticlesForm({ category, data }) {
               labelColor="text-white"
               value={formData.title}
               onChange={handleChange}
+              error={error?.title}
               group
             />
             <Select
               label="Category"
-              id="category"
+              id="category_id"
               labelColor="text-white"
               category={category}
               defaultValue="Select Category"
               inputStyle="bg-gray-800 !text-base"
-              value={formData.category}
+              value={formData.category_id}
               onChange={handleChange}
+              error={error?.category_id}
               group
             />
             <Input
               label="Image"
-              id="image"
+              id="blog_img"
               type="file"
               labelColor="text-white"
               inputStyle="file-input w-full bg-gray-800 focus:outline-none border border-gray-300"
+              value={formData.blog_img}
+              error={error?.blog_img}
               onChange={handleChange}
             />
             <div className="col-span-2 h-auto">
-              <label className={"block text-sm font-medium mb-2 text-white"}>
+              <label
+                className={`block text-sm font-medium mb-2 ${
+                  error?.blog_content ? "text-red-600" : "text-white"
+                }`}
+              >
                 Content
               </label>
               <FroalaEditor
                 tag={"textarea"}
-                model={formData.content}
+                model={formData.blog_content}
                 onModelChange={handleContentChange}
+                error={error?.blog_content}
               />
             </div>
             <div className="col-span-2 flex justify-end mt-4">

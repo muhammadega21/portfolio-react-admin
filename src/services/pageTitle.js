@@ -2,6 +2,8 @@ import axios from "axios";
 
 const api_url = import.meta.env.VITE_API_URL;
 
+const token = localStorage.getItem("token");
+
 const apiClient = axios.create({
   baseURL: api_url,
   timeout: 8000,
@@ -13,7 +15,12 @@ const apiClient = axios.create({
 
 const updatePageTitle = async (route, data) => {
   try {
-    const response = await apiClient.post(`${route}`, data);
+    const response = await apiClient.post(`${route}`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return response.data;
   } catch (e) {

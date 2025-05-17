@@ -1,24 +1,26 @@
 import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ArticlesTable = ({ data }) => {
-  const ArticleData = data.article.blogs;
-
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState(ArticleData);
+  const [filteredData, setFilteredData] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data]);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    const filtered = ArticleData.filter(
-      (product) =>
-        product.title.toLowerCase().includes(term) ||
-        product.category.toLowerCase().includes(term)
+    const filtered = filteredData.filter(
+      (blog) =>
+        blog.title.toLowerCase().includes(term) ||
+        blog.category.toLowerCase().includes(term)
     );
 
     setFilteredData(filtered);
@@ -35,7 +37,7 @@ const ArticlesTable = ({ data }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        const filtered = ArticleData.filter((product) => product.id !== id);
+        const filtered = filteredData.filter((blog) => blog.id !== id);
         setFilteredData(filtered);
         Swal.fire("Deleted!", "Your article has been deleted.", "success");
         navigate("/article");
@@ -93,36 +95,42 @@ const ArticlesTable = ({ data }) => {
             </thead>
 
             <tbody className="divide-y divide-gray-700">
-              {filteredData.map((product) => (
+              {filteredData.map((blog) => (
                 <motion.tr
-                  key={product.id}
+                  key={blog.id}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100 flex gap-2 items-center">
                     <img
-                      src={product.img}
-                      alt={product.title}
+                      src={`${import.meta.env.VITE_STORAGE_URL}/${
+                        blog.blog_img
+                      }`}
+                      alt={blog.title}
                       className="size-10 rounded-full"
                     />
-                    {product.title}
+                    {blog.title}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {product.category.name}
+                    {blog.category}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {product.date}
+                    {new Date(blog.date).toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 flex items-center">
                     <Link
-                      to={`/article/edit/${product.id}`}
+                      to={`/article/edit/${blog.id}`}
                       className="text-indigo-400 hover:text-indigo-300 mr-2"
                     >
                       <Edit size={18} />
                     </Link>
                     <button
-                      onClick={() => handleDelete(product.id)}
+                      onClick={() => handleDelete(blog.id)}
                       className="text-red-400 hover:text-red-300 cursor-pointer"
                     >
                       <Trash2 size={18} />
@@ -139,4 +147,5 @@ const ArticlesTable = ({ data }) => {
     </motion.div>
   );
 };
+
 export default ArticlesTable;
