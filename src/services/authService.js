@@ -8,7 +8,11 @@ const register = async (userData) => {
       throw new Error("Invalid user data");
     }
 
-    const response = await apiClient.post("/register", userData);
+    const response = await apiClient.post("/register", userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return response.data;
   } catch (error) {
@@ -29,15 +33,11 @@ const login = async (formData) => {
 
 const logout = async (token) => {
   try {
-    const response = await apiClient.post(
-      "/logout",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await apiClient.post("/logout", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error during logout:", error.message);
