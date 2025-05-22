@@ -6,6 +6,7 @@ import { updatePageTitle } from "../../services/pageTitle";
 import AlertSuccess from "../alerts/AlertSuccess";
 import AlertError from "../alerts/AlertError";
 import CircleLoading from "../elements/CircleLoading";
+import ThreeDots from "../elements/ThreeDots";
 const SubHeader = ({ title, img, inputValue, route }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -66,7 +67,7 @@ const SubHeader = ({ title, img, inputValue, route }) => {
             />
             <div className="mt-3 flex justify-end">
               <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4  rounded transition duration-200 w-full sm:w-auto cursor-pointer">
-                {isLoading ? <CircleLoading size={20} /> : "Update"}
+                {isLoading ? <ThreeDots size={7} /> : "Update"}
               </button>
             </div>
           </form>

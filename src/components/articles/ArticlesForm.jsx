@@ -2,19 +2,34 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Input from "./../Form/Input";
 import Select from "./../Form/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FroalaEditor from "./../common/FroalaEditor";
-function ArticlesForm({ category, data, handleSubmitData, error }) {
+import ThreeDots from "../elements/ThreeDots";
+function ArticlesForm({ category, data, handleSubmitData, error, formLabel }) {
   const [formData, setFormData] = useState({
-    title: data?.title || "",
-    category_id: data?.category_id || "",
+    id: "",
+    title: "",
+    category_id: "",
     blog_img: null,
-    blog_content: data?.blog_content || "",
+    blog_content: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (data?.data) {
+      setFormData({
+        title: data.data.title || "",
+        category_id: data.data.category_id || "",
+        blog_img: data.data.blog_img || null,
+        blog_content: data.data.blog_content || "",
+      });
+    }
+  }, [data]);
 
   const handleChange = (e) => {
     const { id, value, files } = e.target;
-    if (files) {
+    if (id === "blog_img" && files && files.length > 0) {
       setFormData((prev) => ({ ...prev, [id]: files[0] }));
     } else {
       setFormData((prev) => ({ ...prev, [id]: value }));
@@ -27,7 +42,8 @@ function ArticlesForm({ category, data, handleSubmitData, error }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleSubmitData(formData);
+    setIsLoading(true);
+    handleSubmitData(formData).finally(() => setIsLoading(false));
   };
   return (
     <motion.div
@@ -37,7 +53,7 @@ function ArticlesForm({ category, data, handleSubmitData, error }) {
       transition={{ delay: 0.2 }}
     >
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-100">Add Article</h2>
+        <h2 className="text-xl font-semibold text-gray-100">{formLabel}</h2>
         <Link to="/article" className="btn btn-outline btn-info">
           Back
         </Link>
@@ -75,7 +91,7 @@ function ArticlesForm({ category, data, handleSubmitData, error }) {
               type="file"
               labelColor="text-white"
               inputStyle="file-input w-full bg-gray-800 focus:outline-none border border-gray-300"
-              value={formData.blog_img}
+              // value={formData.blog_img}
               error={error?.blog_img}
               onChange={handleChange}
             />
@@ -95,8 +111,18 @@ function ArticlesForm({ category, data, handleSubmitData, error }) {
               />
             </div>
             <div className="col-span-2 flex justify-end mt-4">
-              <button type="submit" className="btn btn-info text-white">
-                {data ? "Update" : "Add"} Article
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded transition duration-200 w-full sm:w-auto cursor-pointer"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <ThreeDots size={7} />
+                ) : data ? (
+                  "Update Article"
+                ) : (
+                  "Add Article"
+                )}
               </button>
             </div>
           </div>

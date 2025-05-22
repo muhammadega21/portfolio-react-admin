@@ -71,6 +71,7 @@ function ArticleAddPage() {
             category={category}
             error={error}
             handleSubmitData={handleSubmit}
+            formLabel="Add Article"
           />
         </main>
       </div>

@@ -8,80 +8,98 @@ import "froala-editor/js/plugins/lists.min.js";
 import "froala-editor/js/plugins/fullscreen.min.js";
 import "froala-editor/js/plugins/word_paste.min.js";
 import FroalaEditorComponent from "react-froala-wysiwyg";
+import { useEffect, useState } from "react";
 
 function FroalaEditor({ tag, model, onModelChange, error }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <>
-      <FroalaEditorComponent
-        config={{
-          placeholderText: "Write your article here",
-          heightMin: 300,
-          heightMax: 500,
-          toolbarSticky: true,
-          toolbarStickyOffset: 50,
-          toolbarVisibleWithoutSelection: true,
-          undo: true,
-          showOnMobile: true,
-          listAdvancedTypes: true,
-          wordPaste: true,
-
-          events: {
-            contentChanged: function () {
-              this.toolbar.show();
+      {mounted && (
+        <FroalaEditorComponent
+          config={{
+            imageUploadURL: `${
+              import.meta.env.VITE_API_URL
+            }/upload-froala-image`,
+            imageUploadMethod: "POST",
+            imageUploadParam: "file",
+            requestHeaders: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Accept: "application/json",
+              "X-Requested-With": "XMLHttpRequest",
             },
-          },
+            placeholderText: "Write your article here",
+            heightMin: 300,
+            heightMax: 500,
+            toolbarSticky: true,
+            toolbarStickyOffset: 50,
+            toolbarVisibleWithoutSelection: true,
+            undo: true,
+            showOnMobile: true,
+            listAdvancedTypes: true,
+            wordPaste: true,
 
-          imageEditButtons: [
-            "imageReplace",
-            "imageAlign",
-            "imageRemove",
-            "|",
-            "imageLink",
-            "linkOpen",
-            "linkEdit",
-            "linkRemove",
-            "-",
-            "imageDisplay",
-            "imageStyle",
-            "imageSize",
-            "imageMargin",
-          ],
-          imageResize: true,
-          imageAdvancedButton: true,
-          imageMultipleStyles: false,
-          imageDefaultWidth: "100%",
-          imageDefaultAlign: "center",
-          imageDefaultDisplay: "block",
-          imageMove: true,
-          imageOutputSize: true,
-          imageTextNear: true,
-          toolbarButtons: [
-            "bold",
-            "italic",
-            "underline",
-            "strikeThrough",
-            "subscript",
-            "superscript",
-            "|",
-            "paragraphFormat",
-            "align",
-            "formatOL",
-            "formatUL",
-            "outdent",
-            "indent",
-            "|",
-            "insertImage",
-            "insertLink",
-            "insertTable",
-            "undo",
-            "redo",
-            "fullscreen",
-          ],
-        }}
-        tag={tag}
-        model={model}
-        onModelChange={onModelChange}
-      />
+            events: {
+              contentChanged: function () {
+                this.toolbar.show();
+              },
+            },
+
+            imageEditButtons: [
+              "imageReplace",
+              "imageAlign",
+              "imageRemove",
+              "|",
+              "imageLink",
+              "linkOpen",
+              "linkEdit",
+              "linkRemove",
+              "-",
+              "imageDisplay",
+              "imageStyle",
+              "imageSize",
+              "imageMargin",
+            ],
+            imageResize: true,
+            imageAdvancedButton: true,
+            imageMultipleStyles: false,
+            imageDefaultWidth: "100%",
+            imageDefaultAlign: "center",
+            imageDefaultDisplay: "block",
+            imageMove: true,
+            imageOutputSize: true,
+            imageTextNear: true,
+            toolbarButtons: [
+              "bold",
+              "italic",
+              "underline",
+              "strikeThrough",
+              "subscript",
+              "superscript",
+              "|",
+              "paragraphFormat",
+              "align",
+              "formatOL",
+              "formatUL",
+              "outdent",
+              "indent",
+              "|",
+              "insertImage",
+              "insertLink",
+              "insertTable",
+              "undo",
+              "redo",
+              "fullscreen",
+            ],
+          }}
+          tag={tag}
+          model={model}
+          onModelChange={onModelChange}
+        />
+      )}
       {error && (
         <span className="text-red-500 text-start block text-sm mt-1">
           {error}

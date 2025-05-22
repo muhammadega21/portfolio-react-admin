@@ -1,22 +1,9 @@
-import axios from "axios";
-
-const api_url = import.meta.env.VITE_API_URL;
-
-const apiClient = axios.create({
-  baseURL: api_url,
-  timeout: 8000,
-});
-
-const token = localStorage.getItem("token");
+import apiClient from "./apiClient";
 
 const getArticlePageTitle = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   try {
-    const response = await apiClient.get(`/article/${user.slug}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await apiClient.get(`/article/${user.slug}`);
     return response.data;
   } catch (error) {
     console.error(error.message);
@@ -26,12 +13,17 @@ const getArticlePageTitle = async () => {
 
 const getBlog = async () => {
   try {
-    const response = await apiClient.get("/blog", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiClient.get("/blog");
+    return response.data;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
+
+const getBlogById = async (id) => {
+  try {
+    const response = await apiClient.get(`/blog/${id}`);
     return response.data;
   } catch (error) {
     console.error(error.message);
@@ -44,7 +36,21 @@ const addBlog = async (data) => {
     const response = await apiClient.post("/blog", data, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+    // return console.log(data);
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
+
+const updateBlog = async (id, data) => {
+  try {
+    const response = await apiClient.post(`/blog/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
@@ -54,4 +60,21 @@ const addBlog = async (data) => {
   }
 };
 
-export { getArticlePageTitle, addBlog, getBlog };
+const deleteBlog = async (id) => {
+  try {
+    const response = await apiClient.delete(`/blog/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
+
+export {
+  getArticlePageTitle,
+  addBlog,
+  getBlog,
+  deleteBlog,
+  getBlogById,
+  updateBlog,
+};

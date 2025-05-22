@@ -1,7 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-
-import Sidebar from "./components/common/Sidebar";
-
 import ServicePage from "./pages/ServicePage";
 import PortfolioPage from "./pages/PortfolioPage";
 import FeedbackPage from "./pages/FeedbackPage";
@@ -15,42 +12,33 @@ import ArticleAddPage from "./pages/article/ArticleAddPage";
 import ArticleEditPage from "./pages/article/ArticleEditPage";
 import CategoryPage from "./pages/category/CategoryPage";
 import AboutPage from "./pages/AboutPage";
-import { ProtectedRoute } from "./services/authService";
+import PublicLayout from "./PublicLayout";
+import ProtectedLayout from "./ProtectedLayout";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/*"
-          element={
-            <ProtectedRoute>
-              <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
-                <Sidebar />
-                <div className="flex-1 p-4 overflow-auto">
-                  <Routes>
-                    <Route path="/" element={<DashboardPage />} />
-                    <Route path="/article" element={<ArticlePage />} />
-                    <Route path="/article/add" element={<ArticleAddPage />} />
-                    <Route
-                      path="/article/edit/:id"
-                      element={<ArticleEditPage />}
-                    />
-                    <Route path="/category" element={<CategoryPage />} />
-                    <Route path="/user" element={<UserPage />} />
-                    <Route path="/about" element={<AboutPage />} />
-                    <Route path="/service" element={<ServicePage />} />
-                    <Route path="/portfolio" element={<PortfolioPage />} />
-                    <Route path="/feedback" element={<FeedbackPage />} />
-                    <Route path="/setting" element={<SettingPage />} />
-                  </Routes>
-                </div>
-              </div>
-            </ProtectedRoute>
-          }
-        />
+        {/* Public Routes */}
+        <Route element={<PublicLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
+
+        {/* Protected Routes */}
+        <Route element={<ProtectedLayout />}>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/article" element={<ArticlePage />} />
+          <Route path="/article/add" element={<ArticleAddPage />} />
+          <Route path="/article/edit/:id" element={<ArticleEditPage />} />
+          <Route path="/category" element={<CategoryPage />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/service" element={<ServicePage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/setting" element={<SettingPage />} />
+        </Route>
       </Routes>
     </>
   );

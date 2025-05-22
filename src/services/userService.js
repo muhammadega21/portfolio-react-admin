@@ -1,22 +1,14 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 
-const api_url = import.meta.env.VITE_API_URL;
-
-const apiClient = axios.create({
-  baseURL: api_url,
-  timeout: 8000,
-});
-
-const getUser = async (token) => {
+const getUser = async () => {
   try {
-    const response = await apiClient.get("/user", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiClient.get("/user");
     return response.data;
   } catch (error) {
-    console.error("Error during login:", error.message);
+    console.error(
+      "Error mendapatkan user:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };

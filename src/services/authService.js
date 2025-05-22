@@ -1,14 +1,6 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import { useEffect } from "react";
-import { getUser } from "./userService";
 import { useNavigate } from "react-router-dom";
-
-const api_url = import.meta.env.VITE_API_URL;
-
-const apiClient = axios.create({
-  baseURL: api_url,
-  timeout: 8000,
-});
 
 const register = async (userData) => {
   try {
@@ -16,11 +8,7 @@ const register = async (userData) => {
       throw new Error("Invalid user data");
     }
 
-    const response = await apiClient.post("/register", userData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await apiClient.post("/register", userData);
 
     return response.data;
   } catch (error) {
@@ -31,11 +19,7 @@ const register = async (userData) => {
 
 const login = async (formData) => {
   try {
-    const response = await apiClient.post("/login", formData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await apiClient.post("/login", formData);
     return response.data;
   } catch (error) {
     console.error("Error during login:", error.message);
@@ -66,6 +50,8 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let isMounted = true;
+
     const verifyAuth = async () => {
       if (!token) {
         navigate("/login");
@@ -73,8 +59,8 @@ const ProtectedRoute = ({ children }) => {
       }
 
       try {
-        await getUser(token);
-        // Jika valid, biarkan render children
+        await apiClient.get("/user");
+        if (!isMounted) return;
       } catch (err) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -83,6 +69,10 @@ const ProtectedRoute = ({ children }) => {
     };
 
     verifyAuth();
+
+    return () => {
+      isMounted = false;
+    };
   }, [token, navigate]);
 
   return token ? children : null;

@@ -20,7 +20,7 @@ function Select({
         {label}
       </label>
       <select
-        value={value}
+        value={value || ""}
         onChange={onChange}
         className={`select select-lg rounded-lg w-full border cursor-pointer ${
           error ? "border-red-500" : "border-gray-300"

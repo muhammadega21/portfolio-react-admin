@@ -1,26 +1,8 @@
-import axios from "axios";
-
-const api_url = import.meta.env.VITE_API_URL;
-
-const token = localStorage.getItem("token");
-
-const apiClient = axios.create({
-  baseURL: api_url,
-  timeout: 8000,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-});
+import apiClient from "./apiClient";
 
 const updatePageTitle = async (route, data) => {
   try {
-    const response = await apiClient.post(`${route}`, data, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiClient.post(`${route}`, data);
 
     return response.data;
   } catch (e) {

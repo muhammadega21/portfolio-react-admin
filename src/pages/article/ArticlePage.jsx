@@ -12,10 +12,18 @@ const ArticlePage = () => {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    const fetchArticlePageTitle = async () => {
+    const fetchAllData = async () => {
       try {
-        const response = await getArticlePageTitle();
-        setArticlePageTitle(response?.page_intro || "Empty Page Title");
+        setIsLoading(true);
+
+        // Fetch data secara paralel
+        const [titleResponse, blogsResponse] = await Promise.all([
+          getArticlePageTitle(),
+          getBlog(),
+        ]);
+
+        setArticlePageTitle(titleResponse?.page_intro || "Empty Page Title");
+        setBlogs(blogsResponse?.data || []);
       } catch (err) {
         console.error("Gagal mengambil data:", err);
       } finally {
@@ -23,32 +31,16 @@ const ArticlePage = () => {
       }
     };
 
-    fetchArticlePageTitle();
+    fetchAllData();
   }, []);
 
-  useEffect(() => {
-    const getAllBlogs = async () => {
-      try {
-        const response = await getBlog();
-        setBlogs(response?.data || []);
-      } catch (err) {
-        console.error("Gagal mengambil data:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getAllBlogs();
-  }, []);
-
-  if (isLoading)
+  if (isLoading) {
     return (
       <div className="grid place-items-center my-5">
         <CircleLoading />
       </div>
     );
-
-  console.log(blogs);
+  }
 
   return (
     <div className="flex-1 overflow-auto relative z-10">

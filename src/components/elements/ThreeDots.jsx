@@ -1,11 +1,16 @@
 import "./index.css";
 
-function ThreeDots() {
+function ThreeDots({ size = 10 }) {
+  const dotStyle = {
+    width: `${size}px`,
+    height: `${size}px`,
+  };
+
   return (
     <div className="threeDots">
-      <div className="dots"></div>
-      <div className="dots"></div>
-      <div className="dots"></div>
+      <div className="dots" style={dotStyle} />
+      <div className="dots" style={dotStyle} />
+      <div className="dots" style={dotStyle} />
     </div>
   );
 }
