@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import CircleLoading from "../elements/CircleLoading";
 import { deleteBlog, getBlog } from "../../services/blogService";
@@ -13,9 +13,6 @@ const ArticlesTable = ({ data }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-  const [blogs, setBlogs] = useState([]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setFilteredData(data);
@@ -25,7 +22,6 @@ const ArticlesTable = ({ data }) => {
     try {
       setIsLoading(true);
       const response = await getBlog();
-      setBlogs(response?.data || []);
       setFilteredData(response?.data || []);
     } catch (err) {
       console.error("Gagal mengambil data:", err);

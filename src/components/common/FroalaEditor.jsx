@@ -46,6 +46,20 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
               contentChanged: function () {
                 this.toolbar.show();
               },
+              "image.removed": function (img) {
+                const src = img[0].src;
+                if (src && !src.startsWith("blob:")) {
+                  // Notify backend to mark image for potential cleanup
+                  fetch(`${import.meta.env.VITE_API_URL}/mark-image-unused`, {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    body: JSON.stringify({ imageUrl: src }),
+                  }).catch(console.error);
+                }
+              },
             },
 
             imageEditButtons: [

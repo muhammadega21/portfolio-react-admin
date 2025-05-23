@@ -3,7 +3,7 @@ function Modal({ id, title, children }) {
     <dialog id={id} className="modal">
       <div className="modal-box bg-gray-700">
         <h3 className="font-bold text-lg">{title}</h3>
-        <div className="w-full">{children}</div>
+        <div className="w-full my-3">{children}</div>
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>

@@ -1,79 +1,186 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Modal from "./../Form/modal";
 import Input from "../Form/Input";
-
-const CategoryData = [
-  {
-    id: 1,
-    name: "Laravel",
-  },
-  {
-    id: 2,
-    name: "React Js",
-  },
-  {
-    id: 3,
-    name: "Web Development",
-  },
-];
+import {
+  addCategory,
+  deleteCategory,
+  getCategories,
+  updateCategory,
+} from "../../services/categoryService";
+import CircleLoading from "../elements/CircleLoading";
+import AlertSuccess from "../alerts/AlertSuccess";
+import AlertError from "../alerts/AlertError";
+import ThreeDots from "../elements/ThreeDots";
 
 const CategoryTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState(CategoryData);
-  const [editData, setEditData] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+  });
 
-  const navigate = useNavigate();
+  const fetchCategories = async () => {
+    try {
+      setIsLoading(true);
+      await getCategories().then((response) => {
+        setCategories(response?.data || []);
+        setFilteredData(response?.data || []);
+      });
+    } catch (err) {
+      console.error("Gagal mengambil data:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    const filtered = CategoryData.filter((category) =>
-      category.name.toLowerCase().includes(term)
-    );
 
-    setFilteredData(filtered);
+    if (term === "") {
+      setFilteredData(categories);
+    } else {
+      const filtered = categories.filter((category) =>
+        category.name.toLowerCase().includes(term)
+      );
+      setFilteredData(filtered);
+    }
   };
 
-  const handleDelete = (id) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    setIsButtonLoading(true);
+    try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      const res = await addCategory(data);
+
+      document.getElementById("add_category_modal").close();
+      setFormData({ name: "" });
+
+      const response = await getCategories();
+      setCategories(response?.data || []);
+      setFilteredData(response?.data || []);
+      AlertSuccess(res.message);
+    } catch (err) {
+      document.getElementById("add_category_modal").close();
+      AlertError(err.response.data.message.name);
+    } finally {
+      setIsButtonLoading(false);
+    }
+  };
+
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault();
+
+    if (!formData.id || !formData.name.trim()) {
+      AlertError("ID kategori atau nama kategori tidak valid");
+      return;
+    }
+
+    setIsButtonLoading(true);
+    try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("_method", "PUT");
+
+      const res = await updateCategory(formData.id, data);
+
+      AlertSuccess(res.message || "Kategori berhasil diperbarui");
+
+      // Tutup modal dan reset form
+      document.getElementById("edit_category_modal").close();
+      setFormData({ name: "" });
+
+      // Refresh data
+      const response = await getCategories();
+      setCategories(response?.data || []);
+      setFilteredData(response?.data || []);
+    } catch (err) {
+      document.getElementById("add_category_modal").close();
+      AlertError(err.response.data.message.name);
+    } finally {
+      setIsButtonLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Apakah Anda yakin?",
+      text: "Anda tidak dapat membatalkan ini!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+      confirmButtonText: "Ya, hapus!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const filtered = CategoryData.filter((product) => product.id !== id);
-        setFilteredData(filtered);
-        Swal.fire("Deleted!", "Category has been deleted.", "success");
-        navigate("/category");
+        setIsDeleteLoading(true);
+        deleteCategory(id)
+          .then((response) => {
+            AlertSuccess(response.message);
+            return fetchCategories();
+          })
+          .catch((error) => {
+            AlertError(error.message || "Error deleting blog.");
+            console.error("Error deleting blog:", error);
+          })
+          .finally(() => {
+            setIsDeleteLoading(false);
+          });
       }
     });
   };
 
   const openModal = () => {
-    const modal = document.getElementById("add_category_modal");
-    if (modal) modal.showModal();
+    setFormData({ name: "" });
+    document.getElementById("add_category_modal").showModal();
   };
 
   const handleEdit = (category) => {
-    setEditData(category);
-    const modal = document.getElementById("edit_category_modal");
-    if (modal) modal.showModal();
+    setFormData(category);
+    document.getElementById("edit_category_modal").showModal();
   };
 
-  const handleEditChange = (e) => {
-    setEditData({ ...editData, name: e.target.value });
-  };
+  if (isLoading) {
+    return (
+      <div className="grid place-items-center my-5">
+        <CircleLoading />
+      </div>
+    );
+  }
 
   return (
     <>
+      <AnimatePresence>
+        {isLoading ||
+          (isDeleteLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur-md bg-opacity-50"
+            >
+              <CircleLoading />
+            </motion.div>
+          ))}
+      </AnimatePresence>
       <motion.div
         className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700 mb-8"
         initial={{ opacity: 0, y: 20 }}
@@ -159,28 +266,40 @@ const CategoryTable = () => {
 
       {/* Modal Component */}
       <Modal id="add_category_modal" title="Add New Category">
-        <form>
-          <Input label="Category Name" id="name" type="text" />
+        <form onSubmit={handleAddCategory}>
+          <Input
+            label="Category Name"
+            id="name"
+            type="text"
+            onChange={handleChange}
+            value={formData.name}
+            labelColor={"#fff"}
+          />
           <div className="flex justify-end mt-4 ">
-            <button className="btn btn-primary">Add</button>
+            <button className="btn btn-primary">
+              {isButtonLoading ? <ThreeDots size={7} /> : "Add"}
+            </button>
           </div>
         </form>
       </Modal>
 
       <Modal id="edit_category_modal" title="Edit Category">
-        {editData && (
-          <>
+        {formData && (
+          <form onSubmit={handleUpdateCategory}>
             <Input
               label="Category Name"
               id="name"
               type="text"
-              value={editData.name}
-              onChange={handleEditChange}
+              value={formData.name}
+              onChange={handleChange}
+              labelColor={"#fff"}
             />
             <div className="flex justify-end mt-4 ">
-              <button className="btn btn-primary">Update</button>
+              <button className="btn btn-primary">
+                {isButtonLoading ? <ThreeDots size={7} /> : "Update"}
+              </button>
             </div>
-          </>
+          </form>
         )}
       </Modal>
     </>
