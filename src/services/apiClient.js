@@ -8,7 +8,6 @@ if (!api_url) {
 
 const apiClient = axios.create({
   baseURL: api_url,
-  timeout: 8000,
   headers: {
     "Content-Type": "application/json",
   },
