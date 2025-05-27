@@ -21,7 +21,7 @@ const Profile = ({ name, slug, profession, profile_image, onSubmit }) => {
               href={`https://mhdega-portfolioreact.vercel.app/${slug}`}
               target="_blank"
             >
-              localhost:5173/{slug}
+              https://mhdega-portfolioreact.vercel.app/{slug}
             </a>
           </span>
         </div>
