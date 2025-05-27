@@ -18,7 +18,7 @@ const Profile = ({ name, slug, profession, profile_image, onSubmit }) => {
             Link :{" "}
             <a
               className="text-indigo-400 underline"
-              href={`http://localhost:5173/${slug}`}
+              href={`https://mhdega-portfolioreact.vercel.app/${slug}`}
               target="_blank"
             >
               localhost:5173/{slug}
