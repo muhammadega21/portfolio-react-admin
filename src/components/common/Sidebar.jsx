@@ -75,8 +75,11 @@ const Sidebar = () => {
       name: "Logout",
       icon: LogOut,
       color: "#EF4444",
-      href: "#",
-      onClick: () => handleLogout(),
+      href: "/logout",
+      onClick: (e) => {
+        e.preventDefault();
+        handleLogout();
+      },
     },
   ];
 
