@@ -7,6 +7,8 @@ import "froala-editor/css/plugins/image.min.css";
 import "froala-editor/js/plugins/lists.min.js";
 import "froala-editor/js/plugins/fullscreen.min.js";
 import "froala-editor/js/plugins/word_paste.min.js";
+import "froala-editor/js/plugins/colors.min.js";
+import "froala-editor/css/plugins/colors.min.css";
 import FroalaEditorComponent from "react-froala-wysiwyg";
 import { useEffect, useState } from "react";
 
@@ -40,8 +42,7 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
             undo: true,
             showOnMobile: true,
             listAdvancedTypes: true,
-            wordPaste: true,
-
+            wordPasteModal: false,
             events: {
               contentChanged: function () {
                 this.toolbar.show();
@@ -49,7 +50,6 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
               "image.removed": function (img) {
                 const src = img[0].src;
                 if (src && !src.startsWith("blob:")) {
-                  // Notify backend to mark image for potential cleanup
                   fetch(`${import.meta.env.VITE_API_URL}/mark-image-unused`, {
                     method: "POST",
                     headers: {
@@ -86,7 +86,38 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
             imageMove: true,
             imageOutputSize: true,
             imageTextNear: true,
+            colorsBackground: [
+              "#FF5733",
+              "#C70039",
+              "#900C3F",
+              "#581845",
+              "#FFC300",
+              "#DAF7A6",
+              "#28B463",
+              "#1F618D",
+              "#8E44AD",
+              "#2E4053",
+              "#7D3C98",
+              "#F4D03F",
+            ],
+            colorsStep: 6,
+            colorsText: [
+              "#FF5733",
+              "#C70039",
+              "#900C3F",
+              "#581845",
+              "#FFC300",
+              "#DAF7A6",
+              "#28B463",
+              "#1F618D",
+              "#8E44AD",
+              "#2E4053",
+              "#7D3C98",
+              "#F4D03F",
+            ],
             toolbarButtons: [
+              "textColor",
+              "backgroundColor",
               "bold",
               "italic",
               "underline",
