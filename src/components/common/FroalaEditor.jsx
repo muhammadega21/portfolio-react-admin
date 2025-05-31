@@ -86,7 +86,9 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
             imageMove: true,
             imageOutputSize: true,
             imageTextNear: true,
+            colorsDefault: "#000000",
             colorsBackground: [
+              "#000000",
               "#FF5733",
               "#C70039",
               "#900C3F",
@@ -102,6 +104,7 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
             ],
             colorsStep: 6,
             colorsText: [
+              "#000000",
               "#FF5733",
               "#C70039",
               "#900C3F",
