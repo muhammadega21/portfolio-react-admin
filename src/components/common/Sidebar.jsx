@@ -31,8 +31,8 @@ const Sidebar = () => {
     if (result.isConfirmed) {
       setIsLoading(true);
       try {
-        const token = localStorage.getItem("token");
-        const response = await logout(token);
+        // const token = localStorage.getItem("token");
+        const response = await logout();
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         AlertSuccess(response.message, () =>

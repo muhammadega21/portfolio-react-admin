@@ -31,13 +31,9 @@ const login = async (formData) => {
   }
 };
 
-const logout = async (token) => {
+const logout = async () => {
   try {
-    const response = await apiClient.post("/logout", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiClient.post("/logout");
     return response.data;
   } catch (error) {
     console.error("Error during logout:", error.message);
