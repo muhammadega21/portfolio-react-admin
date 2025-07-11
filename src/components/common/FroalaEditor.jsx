@@ -18,21 +18,33 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
   useEffect(() => {
     setMounted(true);
   }, []);
+
   return (
     <>
       {mounted && (
         <FroalaEditorComponent
           config={{
-            imageUploadURL: `${
-              import.meta.env.VITE_API_URL
-            }/upload-froala-image`,
-            imageUploadMethod: "POST",
-            imageUploadParam: "file",
-            requestHeaders: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              Accept: "application/json",
-              "X-Requested-With": "XMLHttpRequest",
-            },
+            // Disable image upload
+            imageUpload: false,
+            // Disable image manager
+            imageManager: false,
+            // Only allow image by URL
+            imageInsertButtons: ["imageByURL"],
+            // Remove upload option from image edit popup
+            imageEditButtons: [
+              "imageAlign",
+              "imageRemove",
+              "|",
+              "imageLink",
+              "linkOpen",
+              "linkEdit",
+              "linkRemove",
+              "-",
+              "imageDisplay",
+              "imageStyle",
+              "imageSize",
+              "imageMargin",
+            ],
             placeholderText: "Write your article here",
             heightMin: 300,
             heightMax: 500,
@@ -47,36 +59,8 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
               contentChanged: function () {
                 this.toolbar.show();
               },
-              "image.removed": function (img) {
-                const src = img[0].src;
-                if (src && !src.startsWith("blob:")) {
-                  fetch(`${import.meta.env.VITE_API_URL}/mark-image-unused`, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                    body: JSON.stringify({ imageUrl: src }),
-                  }).catch(console.error);
-                }
-              },
+              // Remove image removal handler since we're not tracking uploads
             },
-
-            imageEditButtons: [
-              "imageReplace",
-              "imageAlign",
-              "imageRemove",
-              "|",
-              "imageLink",
-              "linkOpen",
-              "linkEdit",
-              "linkRemove",
-              "-",
-              "imageDisplay",
-              "imageStyle",
-              "imageSize",
-              "imageMargin",
-            ],
             imageResize: true,
             imageAdvancedButton: true,
             imageMultipleStyles: false,
@@ -135,7 +119,7 @@ function FroalaEditor({ tag, model, onModelChange, error }) {
               "outdent",
               "indent",
               "|",
-              "insertImage",
+              "insertImage", // This will now only allow URL insertion
               "insertLink",
               "insertTable",
               "undo",
